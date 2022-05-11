@@ -1,4 +1,4 @@
-package br.com.afcl.ecommerce.models;
+package br.com.afcl.ecommerce;
 
 /**
  * TODO: Do JavaDoc of class...

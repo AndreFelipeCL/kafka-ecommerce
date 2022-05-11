@@ -1,7 +1,5 @@
 package br.com.afcl.ecommerce;
 
-import br.com.afcl.ecommerce.services.EmailService;
-
 import java.io.IOException;
 
 /**

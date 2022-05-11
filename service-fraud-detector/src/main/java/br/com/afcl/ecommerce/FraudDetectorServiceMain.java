@@ -1,7 +1,5 @@
 package br.com.afcl.ecommerce;
 
-import br.com.afcl.ecommerce.services.FraudDetectorService;
-
 import java.io.IOException;
 
 /**

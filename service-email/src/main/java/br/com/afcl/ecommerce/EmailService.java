@@ -1,5 +1,6 @@
-package br.com.afcl.ecommerce.email;
+package br.com.afcl.ecommerce;
 
+import br.com.afcl.ecommerce.services.AbstractService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public class EmailService extends AbstractService<Email> {

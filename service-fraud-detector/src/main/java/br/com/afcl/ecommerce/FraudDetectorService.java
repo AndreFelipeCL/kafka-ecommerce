@@ -1,13 +1,12 @@
-package br.com.afcl.ecommerce.services;
+package br.com.afcl.ecommerce;
 
-import br.com.afcl.ecommerce.model.Constants;
-import br.com.afcl.ecommerce.model.Order;
+import br.com.afcl.ecommerce.services.AbstractService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public class FraudDetectorService extends AbstractService<Order> {
 
     public FraudDetectorService() {
-        super(Order.class, Constants.ECOMMERCE_NEW_ORDER, FraudDetectorService.class.getSimpleName());
+        super(Order.class, "ECOMMERCE_NEW_ORDER", FraudDetectorService.class.getSimpleName());
     }
 
     @Override

@@ -1,6 +1,6 @@
-package br.com.afcl.ecommerce.services;
+package br.com.afcl.ecommerce;
 
-import br.com.afcl.ecommerce.model.Constants;
+import br.com.afcl.ecommerce.services.AbstractService;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -11,7 +11,7 @@ public class LogService extends AbstractService<String> {
 
     public LogService() {
         super(String.class,
-              Constants.ECOMMERCE_ALL_PATTERN,
+              "ECOMMERCE_ALL_PATTERN",
               LogService.class.getSimpleName(),
               Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()));
     }
