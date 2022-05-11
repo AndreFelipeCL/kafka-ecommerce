@@ -11,7 +11,7 @@ public class LogService extends AbstractService<String> {
 
     public LogService() {
         super(String.class,
-              "ECOMMERCE_ALL_PATTERN",
+              "ECOMMERCE.*",
               LogService.class.getSimpleName(),
               Map.of(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()));
     }
