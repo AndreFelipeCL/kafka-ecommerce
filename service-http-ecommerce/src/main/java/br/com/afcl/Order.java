@@ -1,4 +1,4 @@
-package br.com.afcl.ecommerce;
+package br.com.afcl;
 
 import java.math.BigDecimal;
 

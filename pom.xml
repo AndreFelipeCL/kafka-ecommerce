@@ -18,7 +18,9 @@
         <module>service-log</module>
         <module>service-fraud-detector</module>
         <module>service-new-order</module>
-    </modules>
+		<module>service-users</module>
+		<module>service-http-ecommerce</module>
+	</modules>
 
     <groupId>br.com.afcl</groupId>
     <artifactId>kafka-ecommerce</artifactId>

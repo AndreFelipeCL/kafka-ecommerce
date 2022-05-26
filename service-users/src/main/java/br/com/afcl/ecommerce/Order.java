@@ -1,8 +1,9 @@
 package br.com.afcl.ecommerce;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
+import java.util.UUID;
+
+import lombok.Getter;
 
 /**
  * TODO: Do JavaDoc of class...
@@ -16,15 +17,18 @@ public final class Order {
 	private final String email;
 	private final String orderId;
 	private final BigDecimal totalAmount;
+	private final String userId;
 	
-	public Order(String email, String orderId, BigDecimal totalAmount) {
-		this.email = email;
+	public Order(String userId, String orderId, BigDecimal totalAmount, String email) {
+		this.userId = userId;
 		this.orderId = orderId;
 		this.totalAmount = totalAmount;
+		this.email = email;
 	}
 	
 	@Override
 	public String toString() {
-		return "Order{orderId='" + orderId + '\'' + ", totalAmount=" + totalAmount + '}';
+		return "Order{" + "userId='" + userId + '\'' + ", orderId='" + orderId + '\'' + ", totalAmount=" + totalAmount + '}';
 	}
+	
 }

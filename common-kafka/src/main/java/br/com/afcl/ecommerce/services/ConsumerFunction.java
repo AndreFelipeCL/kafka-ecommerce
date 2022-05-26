@@ -2,6 +2,8 @@ package br.com.afcl.ecommerce.services;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * TODO: Do JavaDoc of class...
  *
@@ -11,5 +13,5 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 @FunctionalInterface
 public interface ConsumerFunction<T> {
 
-    void consume(ConsumerRecord<String, T> rcd);
+    void consume(ConsumerRecord<String, T> rcd) throws Exception;
 }
