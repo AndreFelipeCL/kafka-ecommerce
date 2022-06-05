@@ -1,8 +1,8 @@
 package br.com.afcl.ecommerce;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
+
+import lombok.Getter;
 
 /**
  * TODO: Do JavaDoc of class...

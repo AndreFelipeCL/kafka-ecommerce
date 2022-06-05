@@ -1,62 +1,57 @@
 package br.com.afcl.ecommerce.services;
 
-import br.com.afcl.ecommerce.dispatcher.KafkaDispatcher;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Function;
+
+import br.com.afcl.ecommerce.dispatcher.KafkaDispatcher;
+import br.com.afcl.ecommerce.model.CorrelationId;
+import br.com.afcl.ecommerce.model.MessageWrapper;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public abstract class AbstractService<T> implements Closeable {
-	
-	private final Function<T, String> messageIdResolver;
-	private final KafkaDispatcher<T> dispatcher = new KafkaDispatcher<>();
+
+	private final KafkaDispatcher<T> dispatcher;
 	private final KafkaService<T> service;
-	
-	protected AbstractService(Class<T> domainClazz,
+
+	protected AbstractService(String groupId,
 							  String topic,
-							  String groupId,
-							  Function<T, String> messageIdResolver,
 							  Map<String, String> appendProps) {
-		this.messageIdResolver = messageIdResolver;
+		this.dispatcher = new KafkaDispatcher<>();
 		this.service = new KafkaService<>(topic,
 										  this::parse,
-										  domainClazz,
 										  groupId,
 										  appendProps);
 	}
-	
-	protected AbstractService(Class<T> domainClazz, String topic, String groupId, Function<T, String> messageIdResolver) {
-		this(domainClazz, topic, groupId, messageIdResolver, Map.of());
+
+	protected abstract void parse(ConsumerRecord<String, MessageWrapper<T>> rcd) throws Exception;
+
+	protected String messageIdResolver(MessageWrapper<T> t) {
+		return t.getCorrelationId().getId();
 	}
-	
-	protected AbstractService(Class<T> domainClazz, String topic, String groupId, Map<String, String> appendProps) {
-		this(domainClazz, topic, groupId, Objects::toString, appendProps);
-	}
-	
-	protected AbstractService(Class<T> domainClazz, String topic, String groupId) {
-		this(domainClazz, topic, groupId, Objects::toString);
-	}
-	
-	protected abstract void parse(ConsumerRecord<String, T> rcd) throws Exception;
-	
-	protected String messageIdResolver(T t) {
-		return messageIdResolver.apply(t);
-	}
-	
-	public void run() {
+
+	public void run() throws ExecutionException, InterruptedException {
 		this.service.run();
 	}
-	
+
 	@Override
 	public void close() throws IOException {
+		this.dispatcher.close();
 		this.service.close();
 	}
-	
-	protected void dispatchOrder(String topic, T t) throws Exception {
-		dispatcher.send(topic, this.messageIdResolver(t), t);
+
+	protected void dispatch(String topic, CorrelationId correlationId, MessageWrapper<T> t) throws Exception {
+		dispatcher.send(correlationId,
+						topic,
+						this.messageIdResolver(t),
+						t.getPayload());
+	}
+
+	protected void dispatchAsync(String topic, CorrelationId correlationId, MessageWrapper<T> t) throws Exception {
+		dispatcher.sendAsync(correlationId,
+							 topic,
+							 this.messageIdResolver(t),
+							 t.getPayload());
 	}
 }
